@@ -1,6 +1,6 @@
 # Repomix MCP Server
 
-A Model Context Protocol (MCP) server that provides access to the repomix tool for packing repositories into AI-friendly files.
+A Model Context Protocol (MCP) server that provides access to the [repomix](https://github.com/yamadashy/repomix) tool for packing repositories into AI-friendly files.
 
 ## Security
 
@@ -55,12 +55,23 @@ Both tools accept the same parameters:
 
 ### repomix-estimate
 
-Estimate the size of repomix output without retrieving the content. Use this first to check if the output will fit in your context window.
+Estimate the size of [repomix](https://github.com/yamadashy/repomix) output without retrieving the content. Use this first to check if the output will fit in your context window.
 
 Returns:
 - File size in KB/MB
 - Estimated token count (~4 characters per token)
 - Whether compression is enabled
+
+#### repomix-estimate output
+
+```
+Repomix output size estimate:
+- Size: 5.27 KB (0.01 MB)
+- Estimated tokens: ~1,349
+- Compression: disabled
+
+Use the repomix tool with these same parameters to retrieve the actual content.
+```
 
 ### repomix
 
@@ -76,20 +87,7 @@ Example usage in Claude:
 
 **Workflow**: Always estimate first, then retrieve only if the size fits your needs.
 
-## Example Output
-
-### repomix-estimate output
-
-```
-Repomix output size estimate:
-- Size: 5.27 KB (0.01 MB)
-- Estimated tokens: ~1,349
-- Compression: disabled
-
-Use the repomix tool with these same parameters to retrieve the actual content.
-```
-
-### repomix output (first 15 lines)
+#### repomix output (first 15 lines)
 
 ```xml
 This file is a merged representation of a subset of the codebase, containing specifically included files, combined into a single document by Repomix.
