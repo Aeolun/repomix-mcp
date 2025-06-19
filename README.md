@@ -17,7 +17,15 @@ npm run build
 
 ## Usage
 
-Add this server to your MCP client configuration. For Claude Desktop, add to your `claude_desktop_config.json`:
+### Claude Code
+
+```bash
+claude mcp add --scope user repomix node /path/to/repomix-mcp/dist/index.js
+```
+
+### Claude Desktop
+
+Add this server to your MCP client configuration in your `claude_desktop_config.json`:
 
 ```json
 {
@@ -32,15 +40,26 @@ Add this server to your MCP client configuration. For Claude Desktop, add to you
 
 ## Available Tools
 
+Both tools accept the same parameters:
+
+### Parameters
+
+| Parameter | Type | Required | Description | Examples |
+|-----------|------|----------|-------------|----------|
+| `path` | string | No | Directory path to pack | `/path/to/repo` |
+| `style` | enum | No | Output format style | `xml`, `markdown`, `plain` |
+| `compress` | boolean | No | Compress output to reduce token count | `true`, `false` |
+| `include` | string | No | Files to include (glob pattern) | `*.md,*.ts,*.js`, `*.py`, `src/**/*.go` |
+| `ignore` | string | No | Files to exclude (glob pattern) | `*test*,*spec*,dist/**,build/**` |
+| `remote` | string | No | Remote repository URL to process | `https://github.com/user/repo` |
+
 ### repomix-estimate
 
 Estimate the size of repomix output without retrieving the content. Use this first to check if the output will fit in your context window.
 
-Parameters: Same as `repomix` tool
-
 Returns:
 - File size in KB/MB
-- Estimated token count
+- Estimated token count (~4 characters per token)
 - Whether compression is enabled
 
 ### repomix
@@ -49,14 +68,6 @@ Pack a repository into a single, AI-friendly file. Returns the contents of the g
 
 **Best Practice**: Always use `repomix-estimate` first to check the output size, then use `repomix` with appropriate parameters (especially `compress=true` for large repos).
 
-Parameters:
-- `path` (optional): Directory path to pack
-- `style` (optional): Output format - "xml", "markdown", or "plain"
-- `compress` (optional): Compress output to reduce tokens
-- `include` (optional): Files to include (glob pattern)
-- `ignore` (optional): Files to exclude (glob pattern)
-- `remote` (optional): Remote repository URL
-
 Example usage in Claude:
 1. First check size: `use repomix-estimate tool`
 2. If size is reasonable: `use repomix tool`
@@ -64,3 +75,36 @@ Example usage in Claude:
 4. Then retrieve: `use repomix tool with compress=true`
 
 **Workflow**: Always estimate first, then retrieve only if the size fits your needs.
+
+## Example Output
+
+### repomix-estimate output
+
+```
+Repomix output size estimate:
+- Size: 5.27 KB (0.01 MB)
+- Estimated tokens: ~1,349
+- Compression: disabled
+
+Use the repomix tool with these same parameters to retrieve the actual content.
+```
+
+### repomix output (first 15 lines)
+
+```xml
+This file is a merged representation of a subset of the codebase, containing specifically included files, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+```
