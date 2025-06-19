@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "Bash(claude mcp:*)",
+      "Bash(node:*)",
+      "Bash(find:*)"
+    ],
+    "deny": []
+  }
+}
